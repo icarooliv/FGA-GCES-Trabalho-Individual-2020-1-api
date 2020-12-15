@@ -83,5 +83,5 @@ jobs:
         with:
           push: ${{ github.head_ref == 'main' }}
           tags: icarooliv/trab-individual-api:latest
-          cache-from: type=registry,ref=user/app:latest
+          cache-from: type=registry,ref=icarooliv/trab-individual-api:latest
           cache-to: type=inline    
