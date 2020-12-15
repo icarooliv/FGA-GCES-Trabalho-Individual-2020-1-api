@@ -85,3 +85,17 @@ jobs:
           tags: icarooliv/trab-individual-api:latest
           cache-from: type=registry,ref=icarooliv/trab-individual-api:latest
           cache-to: type=inline    
+  deploy:
+    needs: [tests, build]
+    if: '${{ github.head_ref == ''main'' }}'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update rancher deployment
+        uses: th0th/rancher-redeploy-workload@v0.82
+        env:
+          RANCHER_BEARER_TOKEN: '${{ secrets.RANCHER_BEARER_TOKEN }}'
+          RANCHER_CLUSTER_ID: '${{ secrets.RANCHER_CLUSTER_ID }}'
+          RANCHER_NAMESPACE: '${{ secrets.RANCHER_NAMESPACE }}'
+          RANCHER_PROJECT_ID: '${{ secrets.RANCHER_PROJECT_ID }}'
+          RANCHER_URL: '${{ secrets.RANCHER_URL }}'
+          RANCHER_WORKLOADS: '${{ secrets.RANCHER_WORKLOADS }}'
