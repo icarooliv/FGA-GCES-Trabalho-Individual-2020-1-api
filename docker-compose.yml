@@ -1,0 +1,35 @@
+version: "3.7"
+services:
+
+  db:
+    image: postgres
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - "5491:5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+
+  api:
+    build: .
+    environment:
+      DATABASE_NAME: ${DATABASE_NAME}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      DATABASE_HOST: ${DATABASE_HOST}
+      DATABASE_PORT: ${DATABASE_PORT}
+      RAILS_MAX_THREADS: ${RAILS_MAX_THREADS}
+      RAILS_ENV: ${RAILS_ENV}
+      WAIT_HOSTS: ${WAIT_HOSTS}
+    volumes:
+      - .:/api
+      - rails_log:/api/log
+    ports:
+      - "3091:3000"
+    depends_on:
+      - db
+    restart: on-failure
+
+volumes:
+  db:
+  rails_log:
