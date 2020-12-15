@@ -1,4 +1,4 @@
-name: Api
+name: API CI
 
 on: 
   push:
@@ -81,8 +81,7 @@ jobs:
         name: Build and push
         uses: docker/build-push-action@v2
         with:
-#           push: ${{ github.head_ref == 'master' }}
-          push: true
+          push: ${{ github.head_ref == 'main' }}
           tags: icarooliv/trab-individual-api:latest
           cache-from: type=registry,ref=user/app:latest
           cache-to: type=inline    
